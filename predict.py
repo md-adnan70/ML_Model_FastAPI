@@ -1,5 +1,6 @@
 import joblib
 import numpy as np
+from typing import List
 
 saved_model = joblib.load('model.joblib')
 print('Loaded the Model')
@@ -20,3 +21,17 @@ def make_prediction(data: dict) -> float:
     return saved_model.predict(features)[0]
  
 
+def make_batch_predictions(data: List[dict]) -> np.array:
+    X = np.array([
+        [
+            x['longitude'],
+            x['latitude'],
+            x['housing_median_age'],
+            x['total_rooms'],
+            x['total_bedrooms'],
+            x['population'],
+            x['households'],
+            x['median_income']
+        ] for x in data
+    ])
+    return saved_model.predict(X)
